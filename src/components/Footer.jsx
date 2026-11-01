@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import WaitlistForm from './WaitlistForm';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -14,7 +15,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative py-24 sm:py-32 bg-slate-darker">
+    <footer id="waitlist" className="relative py-24 sm:py-32 bg-slate-darker">
       {/* Top divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-violet-accent/20 to-transparent" />
 
@@ -24,27 +25,19 @@ export default function Footer() {
       </div>
 
       <div className="relative max-w-4xl mx-auto px-6 text-center">
-        {/* CTA Block */}
+        {/* Submittable Waitlist Form Section */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
+          className="mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-            {t('footer.cta')}
-          </h2>
-
-          <div className="mt-8">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-violet-accent to-indigo-500 text-white font-semibold rounded-2xl text-lg shadow-lg shadow-violet-accent/25 hover:shadow-violet-accent/40 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]">
-              <span className="relative z-10">{t('footer.button')}</span>
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-accent to-indigo-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
-            </button>
-          </div>
+          <WaitlistForm compact={false} />
         </motion.div>
 
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-white/5">
+        <div className="pt-8 border-t border-white/5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Logo */}
             <div className="flex items-center gap-2">
@@ -54,7 +47,17 @@ export default function Footer() {
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
               </div>
-              <span className="text-sm font-semibold text-white/60">Onset</span>
+              <span className="text-sm font-semibold text-white/70">Onset</span>
+              <span className="text-xs text-gray-500 ml-2 font-mono">v1.0-alpha</span>
+            </div>
+
+            {/* Quick links */}
+            <div className="flex items-center gap-6 text-xs text-gray-500">
+              <a href="#problem" className="hover:text-white transition-colors">{t('nav.problem')}</a>
+              <a href="#solution" className="hover:text-white transition-colors">{t('nav.solution')}</a>
+              <a href="#demo" className="hover:text-white transition-colors">{t('nav.demo')}</a>
+              <a href="#personas" className="hover:text-white transition-colors">{t('nav.personas')}</a>
+              <a href="#tech" className="hover:text-white transition-colors">{t('nav.tech')}</a>
             </div>
 
             {/* Copyright */}

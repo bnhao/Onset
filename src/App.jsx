@@ -4,9 +4,10 @@ import './i18n';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 
-// Lazy load secondary sections for performance
+// Lazy load secondary sections for optimal initial bundle & Core Web Vitals
 const Agitation = lazy(() => import('./components/Agitation'));
 const Solution = lazy(() => import('./components/Solution'));
+const LiveDemo = lazy(() => import('./components/LiveDemo'));
 const Personas = lazy(() => import('./components/Personas'));
 const TechSpecs = lazy(() => import('./components/TechSpecs'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -25,7 +26,7 @@ export default function App() {
   if (!ready) return null;
 
   return (
-    <div className="min-h-screen bg-slate-darker text-white antialiased">
+    <div className="min-h-screen bg-slate-darker text-white antialiased selection:bg-violet-600/30 selection:text-white">
       <Navbar />
       <Hero />
       <Suspense fallback={<SectionLoader />}>
@@ -33,6 +34,9 @@ export default function App() {
       </Suspense>
       <Suspense fallback={<SectionLoader />}>
         <Solution />
+      </Suspense>
+      <Suspense fallback={<SectionLoader />}>
+        <LiveDemo />
       </Suspense>
       <Suspense fallback={<SectionLoader />}>
         <Personas />

@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import WaitlistForm from './WaitlistForm';
 
 export default function Hero() {
   const { t } = useTranslation();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-darker">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-darker pt-24 pb-16">
       {/* Ambient glow orbs */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-violet-accent/8 rounded-full blur-[128px] animate-pulse" />
@@ -59,20 +60,29 @@ export default function Hero() {
           {t('hero.sub')}
         </motion.p>
 
-        {/* CTA */}
+        {/* Submittable Waitlist Form (Compact Inline) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="mt-10 flex flex-col items-center gap-3"
+          className="mt-10"
         >
-          <button className="group relative px-8 py-4 bg-gradient-to-r from-violet-accent to-indigo-500 text-white font-semibold rounded-2xl text-lg shadow-lg shadow-violet-accent/25 hover:shadow-violet-accent/40 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]">
-            <span className="relative z-10">{t('hero.cta')}</span>
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-accent to-indigo-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300" />
-          </button>
-          <span className="text-xs text-gray-500 tracking-wide">
-            {t('hero.ctaSub')}
-          </span>
+          <WaitlistForm compact={true} />
+
+          {/* Secondary Actions & Metadata */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-gray-500">
+            <span>{t('hero.ctaSub')}</span>
+            <span className="hidden sm:inline text-white/20">·</span>
+            <a
+              href="#demo"
+              className="text-violet-400 hover:text-violet-300 transition-colors flex items-center gap-1 font-medium"
+            >
+              <span>{t('hero.tryDemo')}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </a>
+          </div>
         </motion.div>
 
         {/* Scroll indicator */}
@@ -80,15 +90,17 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="mt-20"
+          className="mt-16 sm:mt-20"
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="w-6 h-10 rounded-full border-2 border-white/20 mx-auto flex items-start justify-center pt-2"
-          >
-            <div className="w-1 h-2 rounded-full bg-white/40" />
-          </motion.div>
+          <a href="#problem" className="inline-block group" aria-label="Scroll down">
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+              className="w-6 h-10 rounded-full border-2 border-white/20 group-hover:border-violet-400 transition-colors mx-auto flex items-start justify-center pt-2"
+            >
+              <div className="w-1 h-2 rounded-full bg-white/40 group-hover:bg-violet-400 transition-colors" />
+            </motion.div>
+          </a>
         </motion.div>
       </div>
     </section>
