@@ -1,7 +1,7 @@
 # Onset — Sleep Duration Management
 
 > **Stop tracking sleep. Start engineering it.**  
-> The first smart alarm that counts forward from when you actually fall asleep — not when you set it. Powered by biometric data and circadian science.
+> The first smart alarm that counts forward from when you actually fall asleep — not when you set it. Powered by contactless on-device phone sensing and circadian science, with **zero wearables required**.
 
 ---
 
@@ -21,23 +21,26 @@ Traditional alarms make an assumption that is biologically broken: **that you fa
 - **Interactive Live Demo:** Experience the 5 stages of the biological sleep lifecycle in-browser:
   1. *Setup:* Target sleep duration + Circadian Anchor fail-safe.
   2. *Latency Gap:* Clock suppressed, cortisol dropping, awaiting loss of consciousness.
-  3. *Sleep Onset Detected:* Biometrics confirm sleep via sliding window algorithm; timer engages.
-  4. *Sliding Window:* Monitors sleep stages to avoid Slow-Wave Sleep (SWS) awakenings, protecting Human Growth Hormone (HGH) release.
-  5. *Optimal Wake:* Gentle haptic wake sequence during light sleep.
-- **Pure OLED Black Minimalist UI:** One input, one button, pure black screen (`#000000`) with zero visual light pollution to prevent melatonin suppression.
-- **Priority Waitlist System:** Submittable waitlist with real email validation, persona selection (*Overloaded Developer*, *Shift Worker*, *Biohacker*), hardware preference, and browser local storage persistence.
+  3. *Sleep Onset Detected:* Contactless acoustic breathing & motion signals confirm sleep onset; timer engages.
+  4. *Sliding Window:* Tracks respiratory stability and light-sleep transitions to avoid Slow-Wave Sleep (SWS) awakenings, protecting Human Growth Hormone (HGH) release.
+  5. *Optimal Wake:* Gentle progressive acoustic wake sequence during light sleep.
+- **Pure OLED Black Minimalist UI:** One input, one button, pure black screen (`#000000`) with zero visual light pollution to prevent melatonin suppression — fully compatible with Airplane Mode.
+- **Priority Waitlist System:** Submittable waitlist with real email validation, persona selection (*Overloaded Developer*, *Shift Worker*, *Biohacker*), phone setup preference, and browser local storage persistence.
 - **Internationalization (i18n):** Complete runtime English (`en`) and French (`fr`) translations powered by `react-i18next`.
 - **High Performance:** Below-the-fold components are lazy loaded via `React.lazy` and `Suspense` into distinct production chunks.
 
 ---
 
-## 🛠️ MVP Hardware Architecture
+## 🛠️ MVP Architecture (Phone-Only — No Wearable Required)
 
-* **Primary Sensor (Wearable):** **Xiaomi Band (Mi Band) via BLE 5.0**
-  * Continuously streams Heart Rate Variability (HRV) and tri-axis actigraphy motion data over Bluetooth Low Energy.
+> **Note:** Onset MVP does **not** use or require a **Xiaomi Band 8** or any wrist wearable. Most sleepers dislike wearing a watch to bed due to discomfort and overnight charging, and closed BLE ecosystems restrict live sensor streaming. Onset runs 100% locally on your smartphone.
+
+* **Primary Mode (Nightstand Contactless):** **iPhone Acoustic Breathing + Optional Bedside Sonar**
+  * Analyzes breathing cadence, respiratory stability, and micro-movements directly from your phone on the nightstand.
+  * Works **100% offline in Airplane Mode** (zero Wi-Fi, Cellular, or Bluetooth RF emissions overnight) and never saves raw bedroom audio to disk.
   * Powers a 15-minute sliding window algorithm for optimal light-sleep awakening.
-* **Plan B Fail-Safe (Local Smartphone):** **iPhone CoreMotion + Acoustic Classifier**
-  * Fallback to iPhone accelerometer, gyroscope, and ambient microphone breathing analysis.
+* **Alternative Mode (Zero-Sonar / Noisy Rooms):** **On-Mattress CoreMotion & Passive Mic**
+  * Uses iPhone accelerometer + gyroscope (`CoreMotion`) on the mattress corner or passive microphone-only listening (zero ultrasonic emission — ideal for sensitive ears or pets).
   * 100% on-device ML inference — zero cloud latency or privacy exposure.
 
 ---
@@ -94,3 +97,4 @@ npm run preview
 ## 📄 License
 
 MIT License © 2027 Onset. Engineered for sleep.
+

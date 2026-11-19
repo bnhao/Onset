@@ -39,15 +39,15 @@ export default function LiveDemo() {
     return `${h}h ${m < 10 ? '0' : ''}${m}m`;
   };
 
-  // Stage details based on current stage
+  // Stage details based on current stage (phone-based contactless acoustic + motion sensing)
   const stageData = {
     setup: {
       step: 1,
       name: t('demo.stages.setup.name'),
       desc: t('demo.stages.setup.desc'),
-      hr: 74,
-      hrv: 42,
-      motion: 'Active (Setting alarm)',
+      breathingRate: 16,
+      stability: 48,
+      motion: 'Phone in hand (Setting alarm)',
       sleepState: t('demo.telemetry.stateLabels.awake'),
       elapsedBedTime: '0 min',
       elapsedSleepTime: '0 min',
@@ -56,9 +56,9 @@ export default function LiveDemo() {
       step: 2,
       name: t('demo.stages.latency.name'),
       desc: t('demo.stages.latency.desc'),
-      hr: 63,
-      hrv: 58,
-      motion: 'Subtle tossing (settling)',
+      breathingRate: 14,
+      stability: 72,
+      motion: 'Settling on nightstand (subtle shifts)',
       sleepState: t('demo.telemetry.stateLabels.fallingAsleep'),
       elapsedBedTime: '11 min',
       elapsedSleepTime: '0 min (Clock hidden)',
@@ -67,9 +67,9 @@ export default function LiveDemo() {
       step: 3,
       name: t('demo.stages.onset.name'),
       desc: t('demo.stages.onset.desc'),
-      hr: 54,
-      hrv: 76,
-      motion: 'Still (Actigraphy threshold met)',
+      breathingRate: 12,
+      stability: 94,
+      motion: 'Still (Breathing cadence locked)',
       sleepState: t('demo.telemetry.stateLabels.deepSleep'),
       elapsedBedTime: '15 min',
       elapsedSleepTime: '0 min 12s (TIMER INITIATED)',
@@ -78,8 +78,8 @@ export default function LiveDemo() {
       step: 4,
       name: t('demo.stages.sliding.name'),
       desc: t('demo.stages.sliding.desc'),
-      hr: 51,
-      hrv: 82,
+      breathingRate: 11,
+      stability: 96,
       motion: 'Zero movement (protecting HGH)',
       sleepState: t('demo.telemetry.stateLabels.deepSleep'),
       elapsedBedTime: '5h 42m',
@@ -89,9 +89,9 @@ export default function LiveDemo() {
       step: 5,
       name: t('demo.stages.wake.name'),
       desc: t('demo.stages.wake.desc'),
-      hr: 62,
-      hrv: 64,
-      motion: 'Light restlessness detected',
+      breathingRate: 14,
+      stability: 76,
+      motion: 'Light movement & breathing shift',
       sleepState: t('demo.telemetry.stateLabels.lightSleep'),
       elapsedBedTime: '7h 45m',
       elapsedSleepTime: `${formatDuration(durationMinutes)} (100% Guaranteed)`,
@@ -231,7 +231,7 @@ export default function LiveDemo() {
                   <span>23:30</span>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span>BLE 98%</span>
+                    <span>LOCAL · 0 RF</span>
                   </div>
                 </div>
 
@@ -316,13 +316,13 @@ export default function LiveDemo() {
                         </p>
                       </div>
 
-                      {/* BLE Wearable Status */}
+                      {/* Phone-Only Contactless Sensor Status */}
                       <div className="px-3 py-2 rounded-xl bg-violet-950/20 border border-violet-500/20 flex items-center justify-between text-[10px] text-gray-400">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                          <span>{t('demo.hardwareStatus')}</span>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+                          <span className="truncate">{t('demo.hardwareStatus')}</span>
                         </div>
-                        <span className="font-mono text-violet-300">72 bpm</span>
+                        <span className="font-mono text-cyan-300 flex-shrink-0 ml-2">16 br/m</span>
                       </div>
                     </div>
 
@@ -373,6 +373,29 @@ export default function LiveDemo() {
                       <p className="mt-1 text-[10px] text-gray-600">
                         {t('demo.tapToInspect')}
                       </p>
+
+                      <AnimatePresence>
+                        {showTelemetryHUD && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 6 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 6 }}
+                            className="mt-4 w-full px-3 py-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-[10px] font-mono text-gray-400 space-y-1"
+                          >
+                            <div className="flex justify-between">
+                              <span>{t('demo.telemetry.breathingRate')}</span>
+                              <span className="text-violet-300">{current.breathingRate} br/min</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span>{t('demo.telemetry.cadenceStability')}</span>
+                              <span className="text-cyan-300">{current.stability}%</span>
+                            </div>
+                            <div className="text-[9px] text-emerald-400/80 pt-1 border-t border-white/5">
+                              {t('demo.airplaneBadge')} · {t('demo.signalQuality')}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
                     {/* Minimalist Action: Wake / Cancel */}
@@ -418,19 +441,20 @@ export default function LiveDemo() {
                 <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-white/5">
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5">
                     <span className="text-[10px] uppercase font-mono text-gray-400 block mb-1">
-                      {t('demo.telemetry.heartRate')}
+                      {t('demo.telemetry.breathingRate')}
                     </span>
                     <span className="text-lg font-bold font-mono text-violet-300">
-                      {current.hr} <span className="text-xs text-gray-500">BPM</span>
+                      {current.breathingRate} <span className="text-xs text-gray-500">br/min</span>
                     </span>
                   </div>
 
                   <div className="p-3 rounded-xl bg-black/40 border border-white/5">
                     <span className="text-[10px] uppercase font-mono text-gray-400 block mb-1">
-                      {t('demo.telemetry.hrv')}
+                      {t('demo.telemetry.cadenceStability')}
                     </span>
                     <span className="text-lg font-bold font-mono text-cyan-300">
-                      {current.hrv} <span className="text-xs text-gray-500">ms</span>
+                      {current.stability}
+                      <span className="text-xs text-gray-500">%</span>
                     </span>
                   </div>
 

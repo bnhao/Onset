@@ -6,7 +6,7 @@ export default function WaitlistForm({ compact = false, defaultPersona = 'develo
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [role, setRole] = useState(defaultPersona);
-  const [device, setDevice] = useState('xiaomi');
+  const [device, setDevice] = useState('nightstand');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
@@ -272,11 +272,11 @@ export default function WaitlistForm({ compact = false, defaultPersona = 'develo
         <label className="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-2.5">
           {t('waitlist.deviceLabel')}
         </label>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           {[
-            { id: 'xiaomi', label: t('waitlist.devices.xiaomi') },
+            { id: 'nightstand', label: t('waitlist.devices.nightstand') },
+            { id: 'mattress', label: t('waitlist.devices.mattress') },
             { id: 'appleWatch', label: t('waitlist.devices.appleWatch') },
-            { id: 'phoneOnly', label: t('waitlist.devices.phoneOnly') },
           ].map((item) => (
             <button
               key={item.id}
